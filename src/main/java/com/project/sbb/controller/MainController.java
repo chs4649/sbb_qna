@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
+	
+	private int increaseNum = -1;
+	
  @RequestMapping("/sbb")
  //下の関数のリターン値をそのままブラウザーに表示
  //下の関数のリターン値を文字列化して、ブラウザー応答をボディーに入れる
@@ -56,4 +59,24 @@ public class MainController {
 			<h1>こんにちは。ようこそ、GET方式へ。</h1>
 			""".formatted(age);
  }
+ 
+ @GetMapping("/plus")
+ @ResponseBody
+ public int showPlus(int a, int b) {
+	 return a + b;
+ }
+ 
+ @GetMapping("/minus")
+ @ResponseBody
+ public int showMinus(int a, int b) {
+	 return a - b;
+ }
+ 
+ @GetMapping("/increase")
+ @ResponseBody
+ public int showIncrease() {
+	 increaseNum++;
+	 return increaseNum;
+ }
+ 
 }
