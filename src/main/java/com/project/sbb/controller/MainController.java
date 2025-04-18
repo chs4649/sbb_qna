@@ -70,12 +70,6 @@ public class MainController {
 	 return a + b;
  }
  
- @GetMapping("/plus2")
- @ResponseBody
- public int showPlus2(int a, int b) {
-	 return a + b;
- }
- 
  @GetMapping("/minus")
  @ResponseBody
  public int showMinus(int a, int b) {
@@ -120,12 +114,14 @@ public class MainController {
  @ResponseBody
  public String showMbti(@PathVariable String name) {
     return switch (name) {
-     case "田中" -> "INFP";
-     case "中村" -> "ENFP";
+     case "中村" -> {
+    	 char j = 'J';
+    	 yield "INF" + j;
+     }
      case "鈴木" -> "ESFJ";
      case "佐藤" -> "INFJ";
-	default -> "分からない";
- };
- 
-}
+     case "田中", "黒木" -> "INFP";
+	 default -> "分からない";
+    };
+  }
 }
