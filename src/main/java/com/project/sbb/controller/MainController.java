@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +70,12 @@ public class MainController {
 	 return a + b;
  }
  
+ @GetMapping("/plus2")
+ @ResponseBody
+ public int showPlus2(int a, int b) {
+	 return a + b;
+ }
+ 
  @GetMapping("/minus")
  @ResponseBody
  public int showMinus(int a, int b) {
@@ -109,4 +116,16 @@ public class MainController {
 			 .collect(Collectors.joining("<br>"));
  }
  
+ @GetMapping("/mbti/{name}")
+ @ResponseBody
+ public String showMbti(@PathVariable String name) {
+    return switch (name) {
+     case "田中" -> "INFP";
+     case "中村" -> "ENFP";
+     case "鈴木" -> "ESFJ";
+     case "佐藤" -> "INFJ";
+	default -> "分からない";
+ };
+ 
+}
 }
