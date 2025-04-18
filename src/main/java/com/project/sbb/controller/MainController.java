@@ -3,6 +3,8 @@ package com.project.sbb.controller;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.AllArgsConstructor;
+
+
 
 @Controller
 public class MainController {
 	
+	private static final Article Article = null;
 	private int increaseNum = -1;
 	
  @RequestMapping("/sbb")
@@ -124,4 +130,42 @@ public class MainController {
 	 default -> "分からない";
     };
   }
+ 
+@GetMapping("/saveSessionAge/{name}/{value}")
+@ResponseBody
+public String saveSession(@PathVariable String name, @PathVariable String value, HttpSession session) { //HttpServletRequest req不要
+	//HttpSession session = req.getSession();
+    session.setAttribute(name, value);
+    return "セッション変数%sの値が%sに設定されました。".formatted(name, value);
+	}
+
+@GetMapping("/getSessionAge/{name}")
+@ResponseBody
+public String getSession(@PathVariable String name, HttpSession session) {
+	String value = (String) session.getAttribute(name);
+	
+	String message;
+	if (value != null) {
+	    message = "セッション変数%sの値は%sです。".formatted(name, value);
+	} else {
+	    message = "セッション変数%sはセッションに存在しません。".formatted(name);
+	}
+	return message;
+  }
+
+@GetMapping("/addArticle")
+@ResponseBody
+public String addArticle(String title, String body) {
+	int id = 1;
+	Article article = new Article(id, title, body);
+	return "%d번 게시물이 생성되었습니다.".formatted(id);
+}
+
+  @AllArgsConstructor
+  class Article{
+	  private int id;
+	  private String ticle;
+	  private String body;
+  }
+
 }
