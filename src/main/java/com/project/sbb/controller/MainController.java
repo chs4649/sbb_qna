@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 
 
@@ -157,15 +158,21 @@ public String getSession(@PathVariable String name, HttpSession session) {
 @ResponseBody
 public String addArticle(String title, String body) {
 	int id = 1;
-	Article article = new Article(id, title, body);
-	return "%d번 게시물이 생성되었습니다.".formatted(id);
+	Article article = new Article(title, body);
+	return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
 }
 
   @AllArgsConstructor
   class Article{
+	  private static int lastId = 0;
+	  
+	  @Getter
 	  private int id;
 	  private String ticle;
 	  private String body;
+	  
+	  public Article(String title, String body) {
+		  this(++lastId, title, body);
+	  }
   }
-
 }
